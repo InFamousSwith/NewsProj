@@ -1,0 +1,42 @@
+<!--  наследуемся от шаблона default.html, который мы создавали ещё во времена flatpages -->
+{% extends 'flatpages/default.html' %}
+
+<!-- Название у нас будет products -->
+{% block title %}
+Post
+{% endblock title %}
+
+<!-- В контенте на странице мы выводим сам товар, ID которого было передано в адрес -->
+{% block content %}
+<h1>Новость</h1>
+{% if new %}
+        <table>
+            <tr>
+                <td>
+                    Заголовок
+                </td>
+                <td>
+                    Дата
+                </td>
+                <td>
+                    текст
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    {{ new.title }}
+                </td>
+                <td>
+                    {{ new.time_in|date:'d.m.y' }}
+                </td>
+                <td>
+                    {{ new.text }}
+                </td>
+            </tr>
+
+        </table>
+    {% else %}
+        <h2>Новостей нет!</h2>
+    {% endif %}
+{% endblock content %}
