@@ -10,14 +10,11 @@ Posts
 
     <hr>
 
-
-
-
 <form method="GET">
     {{ filter.form }}
     <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы придётся делать самому -->
     <input type="submit" value="Найти">
-</form>
+    </form>
 
     {% if news %}
         <table>
@@ -32,7 +29,7 @@ Posts
                     Описание
                 </td>
             </tr>
-        {% for new in filter.qs}
+        {% for new in filter.qs %}
             <tr>
                 <td>
                     {{ new.title }}

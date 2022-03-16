@@ -6,8 +6,7 @@ from .models import Post
 # создаём фильтр
 class PostFilter(FilterSet):
     time_in = DateFilter(field_name='time_in', lookup_expr='gt', label='Опубликовано после ')
-    author__user = ChoiceFilter(label='Автор')
-    title = CharFilter(label='Заголовок', lookup_expr='icontains')
+    title = CharFilter(label='Заголовок')
 
     class Meta:
         model = Post

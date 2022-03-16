@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+ 
+{% block title %} Post list {% endblock title %}
+ 
+{% block content %}
+<table>
+            <tr>
+                <td>
+                    Заголовок
+                </td>
+                <td>
+                    Дата
+                </td>
+                <td>
+                    Описание
+                </td>
+            </tr>
+        {% for new in news %}
+            <tr>
+                <td>
+                    {{ new.title }}
+                </td>
+                <td>
+                    {{ new.time_in|date:'d.m.y' }}
+                </td>
+                <td>
+                    {{ new.text|truncatechars:21 }}
+                </td>
+            </tr>
+        {% endfor %}
+        </table>
+{% endblock content %}

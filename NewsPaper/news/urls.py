@@ -1,9 +1,9 @@
 from django.urls import path
-from .views import PostList, PostDetail  # импортируем наше представление
+from .views import PostList, PostDetail, PostCreateView # импортируем наше представление
 
 urlpatterns = [
-    # path означает "путь". В данном случае путь ко всем товарам у нас останется пустым, позже станет ясно, почему
     path('', PostList.as_view()),
     path('<int:pk>', PostDetail.as_view()),
-    # pk — это первичный ключ товара, который будет выводиться у нас в шаблон
+    path('search/', PostList.as_view()),
+    path('create/', PostCreateView.as_view(), name='post_create'),  # Ссылка на создание товара
 ]

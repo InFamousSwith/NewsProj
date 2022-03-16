@@ -9,11 +9,12 @@ Posts
     <h3>{{ news|length }}</h3>
 
     <hr>
-    <form method="GET">
+
+<form method="GET">
     {{ filter.form }}
     <!-- Форму от фильтров за нас сделает Django. А вот кнопку, увы придётся делать самому -->
     <input type="submit" value="Найти">
-    </form>
+</form>
 
     {% if news %}
         <table>
@@ -28,12 +29,11 @@ Posts
                     Описание
                 </td>
             </tr>
-        {% for new in news %}
+            {% for new in filter.qs %}
             <tr>
                 <td>
                     {{ new.title }}
-                </td>
-                <td>
+                 <td>
                     {{ new.time_in|date:'d.m.y' }}
                 </td>
                 <td>
@@ -71,4 +71,11 @@ Posts
 
 {% endif %}
 <a class="btn btn-primary" href="http://127.0.0.1:8000/news/search" role="button">Link</a>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form }} <!-- Теперь нам нужна только готовая форма и кнопка -->
+    <input type="submit" value="Добавить пост">
+</form>
+
 {% endblock content %}
