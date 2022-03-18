@@ -5,7 +5,7 @@ urlpatterns = [
     path('', PostList.as_view()),
     path('<int:pk>', PostDetail.as_view(), name='post_detail'),
     path('search/', PostSearch.as_view()),
-    path('create/', PostCreateView.as_view(), name='post_create'),  # Ссылка на создание товара
-    path('create/<int:pk>', PostUpdateView.as_view(), name='post_update'),
-    path('delete/<int:pk>', PostDeleteView.as_view(), name='post_delete'),
+    path('add/', PostCreateView.as_view(), name='post_create'),  # Ссылка на создание товара
+    path('<int:pk>/edit', PostUpdateView.as_view(), name='post_update'),
+    path('<int:pk>/delete', PostDeleteView.as_view(), name='post_delete'),
 ]
