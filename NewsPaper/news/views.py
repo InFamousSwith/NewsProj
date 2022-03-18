@@ -8,26 +8,40 @@ from .forms import PostForm
 
 class PostList(ListView):
     model = Post
-    template_name = 'news_list.html'
+    template_name = 'news.html'
     context_object_name = 'news'
     ordering = ['-id']
     paginate_by = 10
     form_class = PostForm
 
-    def get_context_data(self, **kwargs):  # забираем отфильтрованные объекты переопределяя метод get_context_data у наследуемого класса (привет, полиморфизм, мы скучали!!!)
+
+class PostSearch(ListView):
+    model = Post
+    template_name = "news/search.html"
+    context_object_name = 'news'
+    ordering = ['-id']
+    form_class = PostForm
+    paginate_by = 10
+
+    # забираем отфильтрованные объекты переопределяя метод get_context_data у наследуемого класса
+    def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['filter'] = PostFilter(self.request.GET, queryset=self.get_queryset())  # вписываем наш фильтр в контекст
-        context['categories'] = Category.objects.all()
+        context['filter'] = PostFilter(self.request.GET,
+                                       queryset=self.get_queryset())  # вписываем наш фильтр в контекст
         context['form'] = PostForm()
         return context
 
     def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)  # создаём новую форму, забиваем в неё данные из POST-запроса
-
-        if form.is_valid():  # если пользователь ввёл всё правильно и нигде не ошибся, то сохраняем новый товар
+        form = self.form_class(request.POST)
+        if form.is_valid():
             form.save()
-
+        # отправляем пользователя обратно на GET-запрос.
         return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return PostFilter(self.request.GET, queryset=queryset).qs
+
 
 # создаём представление, в котором будут детали конкретного отдельного товара
 class PostDetail(DetailView):
@@ -44,7 +58,7 @@ class PostDetailView(DetailView):
 # дженерик для создания объекта. Надо указать только имя шаблона и класс формы, который мы написали в прошлом юните. Остальное он сделает за вас
 class PostCreateView(CreateView):
     template_name = 'news/news_create.html'
-    form_class = Post
+    form_class = PostForm
 
 
 class PostUpdateView(UpdateView):

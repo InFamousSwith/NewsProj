@@ -1,8 +1,9 @@
 {% extends 'flatpages/default.html' %}
- 
-{% block title %} Post list {% endblock title %}
- 
+
+{% block title %} Delete post {% endblock title %}
+
 {% block content %}
+<h2>Вы действительно хотите удалить данный товар?</h2>
 <table>
             <tr>
                 <td>
@@ -27,6 +28,12 @@
                     {{ new.text|truncatechars:21 }}
                 </td>
             </tr>
-        {% endfor %}
+
         </table>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="подтвердить"></form>
+
 {% endblock content %}
+

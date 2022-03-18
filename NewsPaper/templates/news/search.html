@@ -28,7 +28,7 @@ Posts
                     Описание
                 </td>
             </tr>
-        {% for new in news %}
+        {% for new in filter.qs %}
             <tr>
                 <td>
                     {{ new.title }}

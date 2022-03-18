@@ -19,3 +19,17 @@ def censor(value):
             word = random.sample(chars, len(word))
 
     return random.sample(chars, len(word))
+
+    forbidden_list = ["военн", "жир", "просто", "даже", "клуб", "операц", "евро"]
+
+    check_list = value.split()
+    for i in range(len(check_list)):
+        for forb_word in forbidden_list:
+            post_word = check_list[i]
+            pos = post_word.lower().find(forb_word)
+            if pos != -1:
+                post_word = post_word[:pos] + "*" * len(forb_word) + post_word[pos + len(forb_word):]
+            check_list[i] = post_word
+
+    res = " ".join(check_list)
+    return res
