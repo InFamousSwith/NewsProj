@@ -1,9 +1,11 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from .models import Post, Category
 from datetime import datetime
 from .filters import PostFilter
 from .forms import PostForm
+
 
 
 class PostList(ListView):
@@ -56,12 +58,14 @@ class PostDetailView(DetailView):
 
 
 # дженерик для создания объекта. Надо указать только имя шаблона и класс формы, который мы написали в прошлом юните. Остальное он сделает за вас
-class PostCreateView(CreateView):
+class PostCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = ('news.create_post',)
     template_name = 'news/news_create.html'
     form_class = PostForm
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UpdateView):
+    permission_required = ('news.change_post',)
     template_name = 'news/news_create.html'
     form_class = PostForm
 
@@ -72,7 +76,8 @@ class PostUpdateView(UpdateView):
 
 
 # дженерик для удаления товара
-class PostDeleteView(DeleteView):
+class PostDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = ('news.delete_post',)
     template_name = 'news/news_delete.html'
     queryset = Post.objects.all()
     success_url = '/news/'
